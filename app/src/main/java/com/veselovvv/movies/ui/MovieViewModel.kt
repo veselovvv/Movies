@@ -1,4 +1,4 @@
-package com.veselovvv.movies
+package com.veselovvv.movies.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
