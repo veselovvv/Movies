@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MovieActivity">
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Please check your connection and try again!"
+        android:textColor="@color/black"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/movie_poster"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_gravity="center"
+                android:scaleType="matrix" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_margin="16dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/title"
+                    android:text="Movie"
+                    android:textSize="20sp"
+                    style="@style/big_center_text" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/subtitle"
+                    android:text="Subtitle"
+                    android:textSize="16sp"
+                    style="@style/big_center_text" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:text="Info"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_marginTop="8dp"
+                        android:text="Release: "
+                        style="@style/bold_text" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/release_date"
+                        android:layout_marginTop="8dp"
+                        android:text="2021"
+                        style="@style/normal_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_marginTop="4dp"
+                        android:text="Rating: "
+                        style="@style/bold_text" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/rating"
+                        android:layout_marginTop="4dp"
+                        android:text="9"
+                        style="@style/normal_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_marginTop="4dp"
+                        android:text="Runtime: "
+                        style="@style/bold_text" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/runtime"
+                        android:layout_marginTop="4dp"
+                        android:text="2 hr"
+                        style="@style/normal_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_marginTop="4dp"
+                        android:text="Budget: "
+                        style="@style/bold_text" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/budget"
+                        android:layout_marginTop="4dp"
+                        android:text="150,000"
+                        style="@style/normal_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_marginTop="4dp"
+                        android:text="Revenue: "
+                        style="@style/bold_text" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/revenue"
+                        android:layout_marginTop="4dp"
+                        android:text="170,000"
+                        style="@style/normal_text" />
+                </LinearLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_marginTop="16dp"
+                    android:layout_gravity="center"
+                    android:text="Overview "
+                    style="@style/bold_text" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/overview"
+                    android:layout_marginTop="4dp"
+                    android:text="Movie overview"
+                    style="@style/normal_text" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
