@@ -52,13 +52,13 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/title"
-                    android:text="Movie"
+                    tools:text="Movie"
                     android:textSize="20sp"
                     style="@style/big_center_text" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/subtitle"
-                    android:text="Subtitle"
+                    tools:text="Subtitle"
                     android:textSize="16sp"
                     style="@style/big_center_text" />
 
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="16dp"
-                    android:text="Info"
+                    tools:text="Info"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -79,13 +79,13 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_marginTop="8dp"
-                        android:text="Release: "
+                        tools:text="Release: "
                         style="@style/bold_text" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/release_date"
                         android:layout_marginTop="8dp"
-                        android:text="2021"
+                        tools:text="2021"
                         style="@style/normal_text" />
                 </LinearLayout>
 
@@ -96,13 +96,13 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_marginTop="4dp"
-                        android:text="Rating: "
+                        tools:text="Rating: "
                         style="@style/bold_text" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/rating"
                         android:layout_marginTop="4dp"
-                        android:text="9"
+                        tools:text="9"
                         style="@style/normal_text" />
                 </LinearLayout>
 
@@ -113,13 +113,13 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_marginTop="4dp"
-                        android:text="Runtime: "
+                        tools:text="Runtime: "
                         style="@style/bold_text" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/runtime"
                         android:layout_marginTop="4dp"
-                        android:text="2 hr"
+                        tools:text="2 hr"
                         style="@style/normal_text" />
                 </LinearLayout>
 
@@ -130,13 +130,13 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_marginTop="4dp"
-                        android:text="Budget: "
+                        tools:text="Budget: "
                         style="@style/bold_text" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/budget"
                         android:layout_marginTop="4dp"
-                        android:text="150,000"
+                        tools:text="150,000"
                         style="@style/normal_text" />
                 </LinearLayout>
 
@@ -147,26 +147,26 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_marginTop="4dp"
-                        android:text="Revenue: "
+                        tools:text="Revenue: "
                         style="@style/bold_text" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/revenue"
                         android:layout_marginTop="4dp"
-                        android:text="170,000"
+                        tools:text="170,000"
                         style="@style/normal_text" />
                 </LinearLayout>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_marginTop="16dp"
                     android:layout_gravity="center"
-                    android:text="Overview "
+                    tools:text="Overview "
                     style="@style/bold_text" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/overview"
                     android:layout_marginTop="4dp"
-                    android:text="Movie overview"
+                    tools:text="Movie overview"
                     style="@style/normal_text" />
             </LinearLayout>
         </LinearLayout>

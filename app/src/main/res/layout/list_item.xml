@@ -27,12 +27,14 @@
             android:id="@+id/cv_title"
             android:layout_marginTop="8dp"
             android:text="Movie"
+            android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"
             style="@style/cv_text" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/cv_release_date"
+            android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
             android:text="2021"
             android:maxLength="4"
