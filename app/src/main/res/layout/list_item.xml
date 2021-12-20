@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -26,7 +27,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/cv_title"
             android:layout_marginTop="8dp"
-            android:text="Movie"
+            tools:text="Movie"
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"
@@ -36,7 +37,7 @@
             android:id="@+id/cv_release_date"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
-            android:text="2021"
+            tools:text="2021"
             android:maxLength="4"
             style="@style/cv_text" />
     </LinearLayout>

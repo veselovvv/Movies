@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Movies</string>
+    <string name="check_your_connection">Пожалуйста проверьте подключение и попробуйте снова!</string>
+    <string name="error">Ошибка!</string>
+</resources>

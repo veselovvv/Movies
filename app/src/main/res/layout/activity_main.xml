@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Please check your connection and try again!"
+            android:text="@string/check_your_connection"
             android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
