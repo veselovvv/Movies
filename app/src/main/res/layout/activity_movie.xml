@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_300"
     tools:context=".ui.MovieActivity">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -47,30 +48,30 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_margin="16dp">
+                android:layout_margin="16dp"
+                android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/title"
-                    tools:text="Movie"
+                    style="@style/big_center_text"
                     android:textSize="20sp"
-                    style="@style/big_center_text" />
+                    tools:text="Movie" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/subtitle"
-                    tools:text="Subtitle"
+                    style="@style/big_center_text"
                     android:textSize="16sp"
-                    style="@style/big_center_text" />
+                    tools:text="Subtitle" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="16dp"
-                    tools:text="Info"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="Info" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -78,15 +79,15 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
+                        style="@style/bold_text"
                         android:layout_marginTop="8dp"
-                        tools:text="Release: "
-                        style="@style/bold_text" />
+                        tools:text="Release: " />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/release_date"
+                        style="@style/normal_text"
                         android:layout_marginTop="8dp"
-                        tools:text="2021"
-                        style="@style/normal_text" />
+                        tools:text="2021" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -95,15 +96,15 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
+                        style="@style/bold_text"
                         android:layout_marginTop="4dp"
-                        tools:text="Rating: "
-                        style="@style/bold_text" />
+                        tools:text="Rating: " />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/rating"
+                        style="@style/normal_text"
                         android:layout_marginTop="4dp"
-                        tools:text="9"
-                        style="@style/normal_text" />
+                        tools:text="9" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -112,15 +113,15 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
+                        style="@style/bold_text"
                         android:layout_marginTop="4dp"
-                        tools:text="Runtime: "
-                        style="@style/bold_text" />
+                        tools:text="Runtime: " />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/runtime"
+                        style="@style/normal_text"
                         android:layout_marginTop="4dp"
-                        tools:text="2 hr"
-                        style="@style/normal_text" />
+                        tools:text="2 hr" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -129,15 +130,15 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
+                        style="@style/bold_text"
                         android:layout_marginTop="4dp"
-                        tools:text="Budget: "
-                        style="@style/bold_text" />
+                        tools:text="Budget: " />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/budget"
+                        style="@style/normal_text"
                         android:layout_marginTop="4dp"
-                        tools:text="150,000"
-                        style="@style/normal_text" />
+                        tools:text="150,000" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -146,28 +147,28 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
+                        style="@style/bold_text"
                         android:layout_marginTop="4dp"
-                        tools:text="Revenue: "
-                        style="@style/bold_text" />
+                        tools:text="Revenue: " />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/revenue"
+                        style="@style/normal_text"
                         android:layout_marginTop="4dp"
-                        tools:text="170,000"
-                        style="@style/normal_text" />
+                        tools:text="170,000" />
                 </LinearLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_marginTop="16dp"
+                    style="@style/bold_text"
                     android:layout_gravity="center"
-                    tools:text="Overview "
-                    style="@style/bold_text" />
+                    android:layout_marginTop="16dp"
+                    tools:text="Overview " />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/overview"
+                    style="@style/normal_text"
                     android:layout_marginTop="4dp"
-                    tools:text="Movie overview"
-                    style="@style/normal_text" />
+                    tools:text="Movie overview" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
