@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_300"
-    tools:context=".ui.MovieActivity">
+    tools:context=".ui.activities.MovieActivity">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_indicator"
@@ -81,7 +81,7 @@
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/bold_text"
                         android:layout_marginTop="8dp"
-                        tools:text="Release: " />
+                        android:text="@string/release" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/release_date"
@@ -98,7 +98,7 @@
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/bold_text"
                         android:layout_marginTop="4dp"
-                        tools:text="Rating: " />
+                        android:text="@string/rating" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/rating"
@@ -115,7 +115,7 @@
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/bold_text"
                         android:layout_marginTop="4dp"
-                        tools:text="Runtime: " />
+                        android:text="@string/runtime" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/runtime"
@@ -132,7 +132,7 @@
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/bold_text"
                         android:layout_marginTop="4dp"
-                        tools:text="Budget: " />
+                        android:text="@string/budget" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/budget"
@@ -149,7 +149,7 @@
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/bold_text"
                         android:layout_marginTop="4dp"
-                        tools:text="Revenue: " />
+                        android:text="@string/revenue" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/revenue"

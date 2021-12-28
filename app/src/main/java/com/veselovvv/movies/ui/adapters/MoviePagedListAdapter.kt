@@ -1,4 +1,4 @@
-package com.veselovvv.movies.ui
+package com.veselovvv.movies.ui.adapters
 
 import android.content.Context
 import android.content.Intent
@@ -15,6 +15,7 @@ import com.veselovvv.movies.R
 import com.veselovvv.movies.data.Movie
 import com.veselovvv.movies.data.api.POSTER_BASE_URL
 import com.veselovvv.movies.data.repositories.NetworkState
+import com.veselovvv.movies.ui.activities.MovieActivity
 
 class MoviePagedListAdapter(public val context: Context)
     : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {

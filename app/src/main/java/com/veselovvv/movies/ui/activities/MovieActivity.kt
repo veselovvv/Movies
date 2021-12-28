@@ -1,4 +1,4 @@
-package com.veselovvv.movies.ui
+package com.veselovvv.movies.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +17,8 @@ import com.veselovvv.movies.data.api.MovieDBClient
 import com.veselovvv.movies.data.api.MovieDBI
 import com.veselovvv.movies.data.api.POSTER_BASE_URL
 import com.veselovvv.movies.data.repositories.NetworkState
+import com.veselovvv.movies.ui.repositories.MovieDetailsRepository
+import com.veselovvv.movies.ui.viewmodels.MovieViewModel
 import java.text.NumberFormat
 import java.util.*
 

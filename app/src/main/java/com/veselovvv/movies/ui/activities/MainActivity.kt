@@ -1,4 +1,4 @@
-package com.veselovvv.movies.ui
+package com.veselovvv.movies.ui.activities
 
 import android.os.Bundle
 import android.view.View
@@ -15,6 +15,9 @@ import com.veselovvv.movies.R
 import com.veselovvv.movies.data.api.MovieDBClient
 import com.veselovvv.movies.data.api.MovieDBI
 import com.veselovvv.movies.data.repositories.NetworkState
+import com.veselovvv.movies.ui.adapters.MoviePagedListAdapter
+import com.veselovvv.movies.ui.repositories.MoviePagedListRepository
+import com.veselovvv.movies.ui.viewmodels.MainActivityViewModel
 
 class MainActivity : AppCompatActivity() {
 

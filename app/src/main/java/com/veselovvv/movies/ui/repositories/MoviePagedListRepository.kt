@@ -1,4 +1,4 @@
-package com.veselovvv.movies.ui
+package com.veselovvv.movies.ui.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
