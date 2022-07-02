@@ -1,10 +1,8 @@
 package com.veselovvv.movies.ui.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import androidx.lifecycle.Observer
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -23,27 +21,12 @@ import java.text.NumberFormat
 import java.util.*
 
 class MovieActivity : AppCompatActivity() {
-
     private lateinit var movieRepository: MovieDetailsRepository
     private lateinit var viewModel: MovieViewModel
-
-    private lateinit var progressIndicator: CircularProgressIndicator
-    private lateinit var error: MaterialTextView
-    private lateinit var title: MaterialTextView
-    private lateinit var subtitle: MaterialTextView
-    private lateinit var releaseDate: MaterialTextView
-    private lateinit var rating: MaterialTextView
-    private lateinit var runtime: MaterialTextView
-    private lateinit var budget: MaterialTextView
-    private lateinit var revenue: MaterialTextView
-    private lateinit var overview: MaterialTextView
-    private lateinit var moviePoster: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie)
-
-        initComponents()
 
         val movieId = intent.getIntExtra("id", 1)
         val apiService: MovieDBI = MovieDBClient.getClient()
@@ -51,53 +34,37 @@ class MovieActivity : AppCompatActivity() {
         movieRepository = MovieDetailsRepository(apiService)
         viewModel = getViewModel(movieId)
 
-        viewModel.movieDetails.observe(this, Observer { bindUI(it) })
-        viewModel.networkState.observe(this, Observer {
-            progressIndicator.visibility =
+        viewModel.movieDetails.observe(this) { bindUI(it) }
+        viewModel.networkState.observe(this) {
+            findViewById<CircularProgressIndicator>(R.id.progress_indicator).visibility =
                 if (it == NetworkState.LOADING) View.VISIBLE else View.GONE
 
-            error.visibility = if (it == NetworkState.ERROR) View.VISIBLE else View.GONE
-        })
+            findViewById<MaterialTextView>(R.id.error).visibility =
+                if (it == NetworkState.ERROR) View.VISIBLE else View.GONE
+        }
     }
 
-    private fun initComponents() {
-        progressIndicator = findViewById(R.id.progress_indicator)
-        error = findViewById(R.id.error)
-        title = findViewById(R.id.title)
-        subtitle = findViewById(R.id.subtitle)
-        releaseDate = findViewById(R.id.release_date)
-        rating = findViewById(R.id.rating)
-        runtime = findViewById(R.id.runtime)
-        budget = findViewById(R.id.budget)
-        revenue = findViewById(R.id.revenue)
-        overview = findViewById(R.id.overview)
-        moviePoster = findViewById(R.id.movie_poster)
-    }
-
-    fun bindUI(it: MovieDetails) {
-        title.text = it.title
-        subtitle.text = it.tagline
-        releaseDate.text = it.releaseDate
-        rating.text = it.rating.toString()
-        runtime.text = it.runtime.toString()
-        overview.text = it.overview
+    private fun bindUI(it: MovieDetails) {
+        findViewById<MaterialTextView>(R.id.title).text = it.title
+        findViewById<MaterialTextView>(R.id.subtitle).text = it.tagline
+        findViewById<MaterialTextView>(R.id.release_date).text = it.releaseDate
+        findViewById<MaterialTextView>(R.id.rating).text = it.rating.toString()
+        findViewById<MaterialTextView>(R.id.runtime).text = it.runtime.toString()
+        findViewById<MaterialTextView>(R.id.overview).text = it.overview
 
         val formatCurrency = NumberFormat.getCurrencyInstance(Locale.US)
         val posterURL = POSTER_BASE_URL + it.posterPath
 
-        budget.text = formatCurrency.format(it.budget)
-        revenue.text = formatCurrency.format(it.revenue)
-
-        Glide.with(this).load(posterURL).into(moviePoster)
+        findViewById<MaterialTextView>(R.id.budget).text = formatCurrency.format(it.budget)
+        findViewById<MaterialTextView>(R.id.revenue).text = formatCurrency.format(it.revenue)
+        Glide.with(this).load(posterURL).into(findViewById(R.id.movie_poster))
     }
 
-    private fun getViewModel(movieId: Int): MovieViewModel {
-        return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
-
+    private fun getViewModel(movieId: Int) =
+        ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 @Suppress("UNCHECKED_CAST")
                 return MovieViewModel(movieRepository, movieId) as T
             }
         })[MovieViewModel::class.java]
-    }
 }

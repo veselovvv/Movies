@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -20,21 +19,12 @@ import com.veselovvv.movies.ui.repositories.MoviePagedListRepository
 import com.veselovvv.movies.ui.viewmodels.MainActivityViewModel
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var errorTextView: MaterialTextView
-
     lateinit var movieRepository: MoviePagedListRepository
     private lateinit var viewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        recyclerView = findViewById(R.id.movie_list)
-        progressBar = findViewById(R.id.progress_bar_popular)
-        errorTextView = findViewById(R.id.error_popular)
 
         val apiService: MovieDBI = MovieDBClient.getClient()
         movieRepository = MoviePagedListRepository(apiService)
@@ -47,26 +37,26 @@ class MainActivity : AppCompatActivity() {
             override fun getSpanSize(position: Int): Int {
                 val viewType = movieAdapter.getItemViewType(position)
                 // MOVIE_VIEW_TYPE needs 1 out of 2 span, NETWORK_VIEW_TYPE - all 2 span:
-                if (viewType == movieAdapter.MOVIE_VIEW_TYPE) return 1 else return 2
+                return if (viewType == MoviePagedListAdapter.MOVIE_VIEW_TYPE) 1 else 2
             }
         }
 
-        recyclerView.apply {
+        findViewById<RecyclerView>(R.id.movie_list).apply {
             layoutManager = gridLayoutManager
             setHasFixedSize(true)
             adapter = movieAdapter
         }
 
-        viewModel.moviePagedList.observe(this, Observer { movieAdapter.submitList(it) })
-        viewModel.networkState.observe(this, Observer {
-            progressBar.visibility =
+        viewModel.moviePagedList.observe(this) { movieAdapter.submitList(it) }
+        viewModel.networkState.observe(this) {
+            findViewById<ProgressBar>(R.id.progress_bar_popular).visibility =
                 if (viewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
 
-            errorTextView.visibility =
+            findViewById<MaterialTextView>(R.id.error_popular).visibility =
                 if (viewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
 
             if (!viewModel.listIsEmpty()) movieAdapter.setNetworkState(it)
-        })
+        }
     }
 
     private fun getViewModel(): MainActivityViewModel {

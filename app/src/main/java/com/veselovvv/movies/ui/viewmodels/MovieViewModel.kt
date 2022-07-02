@@ -8,10 +8,8 @@ import com.veselovvv.movies.ui.repositories.MovieDetailsRepository
 import io.reactivex.disposables.CompositeDisposable
 
 class MovieViewModel(
-    private val movieRepository: MovieDetailsRepository,
-    movieId: Int
+    private val movieRepository: MovieDetailsRepository, movieId: Int
 ) : ViewModel() {
-
     private val compositeDisposable = CompositeDisposable()
 
     val movieDetails: LiveData<MovieDetails> by lazy {
@@ -24,7 +22,6 @@ class MovieViewModel(
 
     override fun onCleared() {
         super.onCleared()
-
         compositeDisposable.dispose()
     }
 }
