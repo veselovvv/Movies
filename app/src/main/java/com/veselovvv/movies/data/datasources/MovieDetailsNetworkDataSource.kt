@@ -1,9 +1,10 @@
-package com.veselovvv.movies.data.repositories
+package com.veselovvv.movies.data.datasources
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.veselovvv.movies.data.MovieDetails
+import com.veselovvv.movies.data.NetworkState
 import com.veselovvv.movies.data.api.MovieDBI
+import com.veselovvv.movies.data.models.MovieDetails
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 

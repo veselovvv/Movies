@@ -1,9 +1,9 @@
-package com.veselovvv.movies.ui.repositories
+package com.veselovvv.movies.data.repositories
 
 import androidx.lifecycle.LiveData
-import com.veselovvv.movies.data.MovieDetails
 import com.veselovvv.movies.data.api.MovieDBI
-import com.veselovvv.movies.data.repositories.MovieDetailsNetworkDataSource
+import com.veselovvv.movies.data.datasources.MovieDetailsNetworkDataSource
+import com.veselovvv.movies.data.models.MovieDetails
 import io.reactivex.disposables.CompositeDisposable
 
 class MovieDetailsRepository(private val apiService: MovieDBI) {

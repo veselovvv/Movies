@@ -1,9 +1,9 @@
-package com.veselovvv.movies.data.repositories
+package com.veselovvv.movies.data.datasources
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import com.veselovvv.movies.data.Movie
 import com.veselovvv.movies.data.api.MovieDBI
+import com.veselovvv.movies.data.models.Movie
 import io.reactivex.disposables.CompositeDisposable
 
 class MovieDataSourceFactory(

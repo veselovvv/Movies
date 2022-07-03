@@ -1,14 +1,14 @@
-package com.veselovvv.movies.ui.repositories
+package com.veselovvv.movies.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.veselovvv.movies.data.Movie
+import com.veselovvv.movies.data.NetworkState
 import com.veselovvv.movies.data.api.MovieDBI
-import com.veselovvv.movies.data.repositories.MovieDataSource
-import com.veselovvv.movies.data.repositories.MovieDataSourceFactory
-import com.veselovvv.movies.data.repositories.NetworkState
+import com.veselovvv.movies.data.datasources.MovieDataSource
+import com.veselovvv.movies.data.datasources.MovieDataSourceFactory
+import com.veselovvv.movies.data.models.Movie
 import io.reactivex.disposables.CompositeDisposable
 
 class MoviePagedListRepository(private val apiService: MovieDBI) {

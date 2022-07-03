@@ -1,7 +1,7 @@
 package com.veselovvv.movies.data.api
 
-import com.veselovvv.movies.data.MovieDetails
-import com.veselovvv.movies.data.MovieResponse
+import com.veselovvv.movies.data.models.MovieDetails
+import com.veselovvv.movies.data.models.MovieResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path

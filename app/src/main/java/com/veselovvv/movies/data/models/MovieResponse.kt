@@ -1,4 +1,4 @@
-package com.veselovvv.movies.data
+package com.veselovvv.movies.data.models
 
 import com.google.gson.annotations.SerializedName
 

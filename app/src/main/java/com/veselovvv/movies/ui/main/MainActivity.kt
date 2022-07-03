@@ -1,7 +1,6 @@
-package com.veselovvv.movies.ui.activities
+package com.veselovvv.movies.ui.main
 
 import android.os.Bundle
-import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
@@ -11,22 +10,20 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
 import com.veselovvv.movies.R
+import com.veselovvv.movies.data.NetworkState
 import com.veselovvv.movies.data.api.MovieDBClient
-import com.veselovvv.movies.data.api.MovieDBI
-import com.veselovvv.movies.data.repositories.NetworkState
-import com.veselovvv.movies.ui.adapters.MoviePagedListAdapter
-import com.veselovvv.movies.ui.repositories.MoviePagedListRepository
-import com.veselovvv.movies.ui.viewmodels.MainActivityViewModel
+import com.veselovvv.movies.data.repositories.MoviePagedListRepository
+import com.veselovvv.movies.makeVisible
 
 class MainActivity : AppCompatActivity() {
     lateinit var movieRepository: MoviePagedListRepository
-    private lateinit var viewModel: MainActivityViewModel
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val apiService: MovieDBI = MovieDBClient.getClient()
+        val apiService = MovieDBClient.getClient()
         movieRepository = MoviePagedListRepository(apiService)
         viewModel = getViewModel()
 
@@ -49,22 +46,20 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.moviePagedList.observe(this) { movieAdapter.submitList(it) }
         viewModel.networkState.observe(this) {
-            findViewById<ProgressBar>(R.id.progress_bar_popular).visibility =
-                if (viewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
+            findViewById<ProgressBar>(R.id.progress_bar_popular)
+                .makeVisible(viewModel.listIsEmpty() && it == NetworkState.LOADING)
 
-            findViewById<MaterialTextView>(R.id.error_popular).visibility =
-                if (viewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
+            findViewById<MaterialTextView>(R.id.error_popular)
+                .makeVisible(viewModel.listIsEmpty() && it == NetworkState.ERROR)
 
             if (!viewModel.listIsEmpty()) movieAdapter.setNetworkState(it)
         }
     }
 
-    private fun getViewModel(): MainActivityViewModel {
+    private fun getViewModel(): MainViewModel {
         return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                @Suppress("UNCHECKED_CAST")
-                return MainActivityViewModel(movieRepository) as T
-            }
-        })[MainActivityViewModel::class.java]
+            override fun <T : ViewModel?> create(modelClass: Class<T>) =
+                MainViewModel(movieRepository) as T
+        })[MainViewModel::class.java]
     }
 }

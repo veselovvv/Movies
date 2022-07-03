@@ -1,10 +1,10 @@
-package com.veselovvv.movies.ui.viewmodels
+package com.veselovvv.movies.ui.movie
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.veselovvv.movies.data.MovieDetails
-import com.veselovvv.movies.data.repositories.NetworkState
-import com.veselovvv.movies.ui.repositories.MovieDetailsRepository
+import com.veselovvv.movies.data.NetworkState
+import com.veselovvv.movies.data.models.MovieDetails
+import com.veselovvv.movies.data.repositories.MovieDetailsRepository
 import io.reactivex.disposables.CompositeDisposable
 
 class MovieViewModel(

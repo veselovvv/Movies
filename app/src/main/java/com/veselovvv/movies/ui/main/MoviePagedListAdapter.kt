@@ -1,4 +1,4 @@
-package com.veselovvv.movies.ui.adapters
+package com.veselovvv.movies.ui.main
 
 import android.content.Context
 import android.content.Intent
@@ -12,10 +12,11 @@ import com.bumptech.glide.Glide
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textview.MaterialTextView
 import com.veselovvv.movies.R
-import com.veselovvv.movies.data.Movie
+import com.veselovvv.movies.data.NetworkState
 import com.veselovvv.movies.data.api.POSTER_BASE_URL
-import com.veselovvv.movies.data.repositories.NetworkState
-import com.veselovvv.movies.ui.activities.MovieActivity
+import com.veselovvv.movies.data.models.Movie
+import com.veselovvv.movies.makeVisible
+import com.veselovvv.movies.ui.movie.MovieActivity
 
 class MoviePagedListAdapter(private val context: Context)
     : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
@@ -25,7 +26,7 @@ class MoviePagedListAdapter(private val context: Context)
         val view: View
         val layoutInflater = LayoutInflater.from(parent.context)
 
-        return if (viewType == Companion.MOVIE_VIEW_TYPE) {
+        return if (viewType == MOVIE_VIEW_TYPE) {
             view = layoutInflater.inflate(R.layout.list_item, parent, false)
             MovieItemViewHolder(view)
         } else {
@@ -35,7 +36,7 @@ class MoviePagedListAdapter(private val context: Context)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
-        if (getItemViewType(position) == Companion.MOVIE_VIEW_TYPE)
+        if (getItemViewType(position) == MOVIE_VIEW_TYPE)
             (holder as MovieItemViewHolder).bind(getItem(position), context)
         else
             (holder as NetworkStateItemViewHolder).bind(networkState)
@@ -43,7 +44,7 @@ class MoviePagedListAdapter(private val context: Context)
     override fun getItemCount() = super.getItemCount() + if (hasExtraRow()) 1 else 0
 
     override fun getItemViewType(position: Int) =
-        if (hasExtraRow() && position == itemCount - 1) NETWORK_VIEW_TYPE else Companion.MOVIE_VIEW_TYPE
+        if (hasExtraRow() && position == itemCount - 1) NETWORK_VIEW_TYPE else MOVIE_VIEW_TYPE
 
     private fun hasExtraRow() = networkState != null && networkState != NetworkState.LOADED
 
@@ -89,21 +90,20 @@ class MoviePagedListAdapter(private val context: Context)
         fun bind(networkState: NetworkState?) {
             if (networkState != null && networkState == NetworkState.LOADING)
                 itemView.findViewById<CircularProgressIndicator>(R.id.progress_indicator_item)
-                    .visibility = View.VISIBLE
-            else
-                itemView.findViewById<CircularProgressIndicator>(R.id.progress_indicator_item)
-                    .visibility = View.GONE
+                    .makeVisible()
+            else itemView.findViewById<CircularProgressIndicator>(R.id.progress_indicator_item)
+                    .makeVisible(false)
 
             if (networkState != null && networkState == NetworkState.ERROR)
                 itemView.findViewById<MaterialTextView>(R.id.error_item).apply {
-                    visibility = View.VISIBLE
+                    makeVisible()
                     text = networkState.message
-            } else if (networkState != null && networkState == NetworkState.ENDOFLIST)
+            } else if (networkState != null && networkState == NetworkState.END_OF_LIST)
                 itemView.findViewById<MaterialTextView>(R.id.error_item).apply {
-                    visibility = View.VISIBLE
+                    makeVisible()
                     text = networkState.message
                 }
-            else itemView.findViewById<MaterialTextView>(R.id.error_item).visibility = View.GONE
+            else itemView.findViewById<MaterialTextView>(R.id.error_item).makeVisible(false)
         }
     }
 

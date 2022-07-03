@@ -1,7 +1,6 @@
-package com.veselovvv.movies.ui.activities
+package com.veselovvv.movies.ui.movie
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,13 +9,12 @@ import com.bumptech.glide.Glide
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textview.MaterialTextView
 import com.veselovvv.movies.R
-import com.veselovvv.movies.data.MovieDetails
+import com.veselovvv.movies.data.NetworkState
 import com.veselovvv.movies.data.api.MovieDBClient
-import com.veselovvv.movies.data.api.MovieDBI
 import com.veselovvv.movies.data.api.POSTER_BASE_URL
-import com.veselovvv.movies.data.repositories.NetworkState
-import com.veselovvv.movies.ui.repositories.MovieDetailsRepository
-import com.veselovvv.movies.ui.viewmodels.MovieViewModel
+import com.veselovvv.movies.data.models.MovieDetails
+import com.veselovvv.movies.data.repositories.MovieDetailsRepository
+import com.veselovvv.movies.makeVisible
 import java.text.NumberFormat
 import java.util.*
 
@@ -29,18 +27,18 @@ class MovieActivity : AppCompatActivity() {
         setContentView(R.layout.activity_movie)
 
         val movieId = intent.getIntExtra("id", 1)
-        val apiService: MovieDBI = MovieDBClient.getClient()
+        val apiService = MovieDBClient.getClient()
 
         movieRepository = MovieDetailsRepository(apiService)
         viewModel = getViewModel(movieId)
 
         viewModel.movieDetails.observe(this) { bindUI(it) }
         viewModel.networkState.observe(this) {
-            findViewById<CircularProgressIndicator>(R.id.progress_indicator).visibility =
-                if (it == NetworkState.LOADING) View.VISIBLE else View.GONE
+            findViewById<CircularProgressIndicator>(R.id.progress_indicator)
+                .makeVisible(it == NetworkState.LOADING)
 
-            findViewById<MaterialTextView>(R.id.error).visibility =
-                if (it == NetworkState.ERROR) View.VISIBLE else View.GONE
+            findViewById<MaterialTextView>(R.id.error)
+                .makeVisible(it == NetworkState.ERROR)
         }
     }
 
@@ -62,9 +60,7 @@ class MovieActivity : AppCompatActivity() {
 
     private fun getViewModel(movieId: Int) =
         ViewModelProviders.of(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                @Suppress("UNCHECKED_CAST")
-                return MovieViewModel(movieRepository, movieId) as T
-            }
+            override fun <T : ViewModel?> create(modelClass: Class<T>) =
+                MovieViewModel(movieRepository, movieId) as T
         })[MovieViewModel::class.java]
 }

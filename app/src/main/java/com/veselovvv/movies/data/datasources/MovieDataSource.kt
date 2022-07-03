@@ -1,9 +1,10 @@
-package com.veselovvv.movies.data.repositories
+package com.veselovvv.movies.data.datasources
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import com.veselovvv.movies.data.Movie
+import com.veselovvv.movies.data.NetworkState
 import com.veselovvv.movies.data.api.MovieDBI
+import com.veselovvv.movies.data.models.Movie
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
@@ -44,7 +45,7 @@ class MovieDataSource(
                         callback.onResult(it.movieList, params.key + 1)
                         networkState.postValue(NetworkState.LOADED)
                     } else
-                        networkState.postValue(NetworkState.ENDOFLIST)
+                        networkState.postValue(NetworkState.END_OF_LIST)
                 }, {
                     networkState.postValue(NetworkState.ERROR)
                 })
