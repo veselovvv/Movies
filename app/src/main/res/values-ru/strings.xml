@@ -3,4 +3,9 @@
     <string name="app_name">Movies</string>
     <string name="check_your_connection">Пожалуйста проверьте подключение и попробуйте снова!</string>
     <string name="error">Ошибка!</string>
+    <string name="release">Релиз:</string>
+    <string name="rating">Рейтинг:</string>
+    <string name="runtime">Время:</string>
+    <string name="budget">Бюджет:</string>
+    <string name="revenue">Доход:</string>
 </resources>
