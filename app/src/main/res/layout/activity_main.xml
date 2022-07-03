@@ -23,6 +23,8 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/check_your_connection"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp"
             android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
