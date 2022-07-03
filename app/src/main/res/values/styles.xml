@@ -30,4 +30,10 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="horizontal_linear_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
 </resources>
