@@ -1,5 +1,5 @@
 # Movies
-🎥 Android App using Kotlin, MVVM, ViewModel and LiveData, RxJava, Retrofit, REST API (https://www.themoviedb.org), OkHttp, Gson, Glide, Paging library and Material Design Components. In this app you can see a list of popular movies and additional info about every movie.
+🎥 Android App using Kotlin, MVVM, ViewModel and LiveData, RxJava, Retrofit, REST API (https://www.themoviedb.org), Gson, Glide, Paging library and Material Design Components. In this app you can see a list of popular movies and additional info about every movie.
 
 ![1](https://user-images.githubusercontent.com/76612421/177036482-aebb868e-3603-489e-a4b5-9020ef6ccad6.PNG)
 ![2](https://user-images.githubusercontent.com/76612421/177036484-12e4894e-113d-45a6-86d0-ac30581599f5.PNG)
