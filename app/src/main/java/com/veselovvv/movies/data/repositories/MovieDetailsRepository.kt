@@ -7,7 +7,9 @@ import com.veselovvv.movies.data.models.MovieDetails
 import io.reactivex.disposables.CompositeDisposable
 
 class MovieDetailsRepository(private val apiService: MovieDBI) {
-    lateinit var movieDetailsNetworkDataSource: MovieDetailsNetworkDataSource
+    private lateinit var movieDetailsNetworkDataSource: MovieDetailsNetworkDataSource
+
+    fun getMovieDetailsNetworkState() = movieDetailsNetworkDataSource.networkState
 
     fun fetchMovieDetails(
         compositeDisposable: CompositeDisposable,
@@ -17,6 +19,4 @@ class MovieDetailsRepository(private val apiService: MovieDBI) {
         movieDetailsNetworkDataSource.fetchMovieDetails(movieId)
         return movieDetailsNetworkDataSource.downloadedMovieDetailsResponse
     }
-
-    fun getMovieDetailsNetworkState() = movieDetailsNetworkDataSource.networkState
 }

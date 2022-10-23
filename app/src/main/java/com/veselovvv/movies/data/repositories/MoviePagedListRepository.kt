@@ -12,7 +12,7 @@ import com.veselovvv.movies.data.models.Movie
 import io.reactivex.disposables.CompositeDisposable
 
 class MoviePagedListRepository(private val apiService: MovieDBI) {
-    lateinit var movieDataSourceFactory: MovieDataSourceFactory
+    private lateinit var movieDataSourceFactory: MovieDataSourceFactory
 
     fun fetchMoviePagedList(compositeDisposable: CompositeDisposable): LiveData<PagedList<Movie>> {
         movieDataSourceFactory = MovieDataSourceFactory(apiService, compositeDisposable)
@@ -26,7 +26,8 @@ class MoviePagedListRepository(private val apiService: MovieDBI) {
     }
 
     fun getNetworkState(): LiveData<NetworkState> = Transformations.switchMap(
-        movieDataSourceFactory.moviesLiveDataSource, MovieDataSource::networkState
+        movieDataSourceFactory.getMoviesLiveDataSource(),
+        MovieDataSource::networkState
     )
 
     companion object {

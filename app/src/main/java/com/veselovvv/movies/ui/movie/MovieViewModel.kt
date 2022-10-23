@@ -8,7 +8,8 @@ import com.veselovvv.movies.data.repositories.MovieDetailsRepository
 import io.reactivex.disposables.CompositeDisposable
 
 class MovieViewModel(
-    private val movieRepository: MovieDetailsRepository, movieId: Int
+    private val movieRepository: MovieDetailsRepository,
+    private val movieId: Int
 ) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 

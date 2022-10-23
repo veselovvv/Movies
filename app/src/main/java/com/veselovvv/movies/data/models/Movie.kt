@@ -3,10 +3,15 @@ package com.veselovvv.movies.data.models
 import com.google.gson.annotations.SerializedName
 
 data class Movie(
-    val id: Int,
+    private val id: Int,
     @SerializedName("poster_path")
-    val posterPath: String,
+    private val posterPath: String,
     @SerializedName("release_date")
-    val releaseDate: String,
-    val title: String
-)
+    private val releaseDate: String,
+    private val title: String
+) {
+    fun getId() = id
+    fun getPosterPath() = posterPath
+    fun getReleaseDate() = releaseDate
+    fun getTitle() = title
+}

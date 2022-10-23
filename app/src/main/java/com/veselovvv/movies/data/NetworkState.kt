@@ -1,6 +1,8 @@
 package com.veselovvv.movies.data
 
-class NetworkState(val message: String) {
+class NetworkState(private val message: String) {
+    fun getMessage() = message
+
     companion object {
         val LOADED = NetworkState("Success")
         val LOADING = NetworkState("Running")

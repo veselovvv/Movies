@@ -19,10 +19,10 @@ class MainViewModel(private val movieRepository: MoviePagedListRepository) : Vie
         movieRepository.getNetworkState()
     }
 
-    fun listIsEmpty() = moviePagedList.value?.isEmpty() ?: true
-
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
     }
+
+    fun listIsEmpty() = moviePagedList.value?.isEmpty() ?: true
 }

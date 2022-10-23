@@ -7,9 +7,10 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-private const val API_KEY = "a21582c85151cf8986672306c73343b9"
+private const val API_KEY_PARAMETER_NAME = "api_key"
+private const val API_KEY = "YourApiKey"
 private const val BASE_URL = "https://api.themoviedb.org/3/"
-const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342"
+const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342" // TODO make private
 
 object MovieDBClient {
     fun getClient(): MovieDBI {
@@ -17,7 +18,7 @@ object MovieDBClient {
             val url = chain.request()
                 .url()
                 .newBuilder()
-                .addQueryParameter("api_key", API_KEY)
+                .addQueryParameter(API_KEY_PARAMETER_NAME, API_KEY)
                 .build()
 
             val request = chain.request()

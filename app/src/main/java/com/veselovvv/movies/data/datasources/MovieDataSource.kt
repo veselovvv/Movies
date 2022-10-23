@@ -5,6 +5,7 @@ import androidx.paging.PageKeyedDataSource
 import com.veselovvv.movies.data.NetworkState
 import com.veselovvv.movies.data.api.MovieDBI
 import com.veselovvv.movies.data.models.Movie
+import com.veselovvv.movies.data.models.MovieResponse
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
@@ -18,41 +19,36 @@ class MovieDataSource(
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, Movie>
-    ) {
-        networkState.postValue(NetworkState.LOADING)
-
-        compositeDisposable.add(
-            apiService.getPopularMovie(page)
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    callback.onResult(it.movieList, null, page + 1)
-                    networkState.postValue(NetworkState.LOADED)
-                }, {
-                    networkState.postValue(NetworkState.ERROR)
-                })
-        )
+    ) = load(page) {
+        callback.onResult(it.getMovieList(), null, page + 1)
+        networkState.postValue(NetworkState.LOADED)
     }
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
-        networkState.postValue(NetworkState.LOADING)
-
-        compositeDisposable.add(
-            apiService.getPopularMovie(params.key)
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    // If there is content to load, load it, else - the end of the list:
-                    if (it.totalPages >= params.key) {
-                        callback.onResult(it.movieList, params.key + 1)
-                        networkState.postValue(NetworkState.LOADED)
-                    } else
-                        networkState.postValue(NetworkState.END_OF_LIST)
-                }, {
-                    networkState.postValue(NetworkState.ERROR)
-                })
-        )
-    }
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) =
+        load(params.key) {
+            // If there is content to load, load it, else - the end of the list:
+            if (it.getTotalPages() >= params.key) {
+                callback.onResult(it.getMovieList(), params.key + 1)
+                networkState.postValue(NetworkState.LOADED)
+            } else
+                networkState.postValue(NetworkState.END_OF_LIST)
+        }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) = Unit
+
+    fun load(pageNumber: Int, movieResponse: (MovieResponse) -> Unit) {
+        networkState.postValue(NetworkState.LOADING)
+
+        compositeDisposable.add(
+            apiService.getPopularMovie(pageNumber)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    movieResponse.invoke(it)
+                }, {
+                    networkState.postValue(NetworkState.ERROR)
+                })
+        )
+    }
 
     companion object {
         private const val FIRST_PAGE = 1

@@ -1,6 +1,7 @@
 package com.veselovvv.movies.ui.movie
 
 import android.os.Bundle
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -15,22 +16,24 @@ import com.veselovvv.movies.data.api.POSTER_BASE_URL
 import com.veselovvv.movies.data.models.MovieDetails
 import com.veselovvv.movies.data.repositories.MovieDetailsRepository
 import com.veselovvv.movies.makeVisible
-import java.text.NumberFormat
-import java.util.*
+import com.veselovvv.movies.ui.main.MoviePagedListAdapter
 
 class MovieActivity : AppCompatActivity() {
-    private lateinit var movieRepository: MovieDetailsRepository
+    private lateinit var movieDetailsRepository: MovieDetailsRepository
     private lateinit var viewModel: MovieViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie)
 
-        val movieId = intent.getIntExtra("id", 1)
-        val apiService = MovieDBClient.getClient()
+        movieDetailsRepository = MovieDetailsRepository(MovieDBClient.getClient())
 
-        movieRepository = MovieDetailsRepository(apiService)
-        viewModel = getViewModel(movieId)
+        val movieId = intent.getIntExtra(MoviePagedListAdapter.MovieItemViewHolder.ID_PARAM_KEY, 1)
+        // TODO DRY
+        viewModel = ViewModelProviders.of(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>) =
+                MovieViewModel(movieDetailsRepository, movieId) as T
+        })[MovieViewModel::class.java]
 
         viewModel.movieDetails.observe(this) { bindUI(it) }
         viewModel.networkState.observe(this) {
@@ -42,25 +45,21 @@ class MovieActivity : AppCompatActivity() {
         }
     }
 
-    private fun bindUI(it: MovieDetails) {
-        findViewById<MaterialTextView>(R.id.title).text = it.title
-        findViewById<MaterialTextView>(R.id.subtitle).text = it.tagline
-        findViewById<MaterialTextView>(R.id.release_date).text = it.releaseDate
-        findViewById<MaterialTextView>(R.id.rating).text = it.rating.toString()
-        findViewById<MaterialTextView>(R.id.runtime).text = it.runtime.toString()
-        findViewById<MaterialTextView>(R.id.overview).text = it.overview
+    fun bindUI(movieDetails: MovieDetails) {
+        setTextForTextView(R.id.title, movieDetails.getTitle())
+        setTextForTextView(R.id.subtitle, movieDetails.getTagline())
+        setTextForTextView(R.id.release_date, movieDetails.getReleaseDate())
+        setTextForTextView(R.id.rating, movieDetails.getRating())
+        setTextForTextView(R.id.runtime, movieDetails.getRuntime())
+        setTextForTextView(R.id.overview, movieDetails.getOverview())
+        setTextForTextView(R.id.budget, movieDetails.getBudget())
+        setTextForTextView(R.id.revenue, movieDetails.getRevenue())
 
-        val formatCurrency = NumberFormat.getCurrencyInstance(Locale.US)
-        val posterURL = POSTER_BASE_URL + it.posterPath
-
-        findViewById<MaterialTextView>(R.id.budget).text = formatCurrency.format(it.budget)
-        findViewById<MaterialTextView>(R.id.revenue).text = formatCurrency.format(it.revenue)
+        val posterURL = POSTER_BASE_URL + movieDetails.getPosterPath()
         Glide.with(this).load(posterURL).into(findViewById(R.id.movie_poster))
     }
 
-    private fun getViewModel(movieId: Int) =
-        ViewModelProviders.of(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>) =
-                MovieViewModel(movieRepository, movieId) as T
-        })[MovieViewModel::class.java]
+    fun setTextForTextView(@IdRes textViewId: Int, text: String) {
+        findViewById<MaterialTextView>(textViewId).text = text
+    }
 }

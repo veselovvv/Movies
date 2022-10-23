@@ -10,7 +10,9 @@ class MovieDataSourceFactory(
     private val apiService: MovieDBI,
     private val compositeDisposable: CompositeDisposable
 ) : DataSource.Factory<Int, Movie>() {
-    val moviesLiveDataSource = MutableLiveData<MovieDataSource>()
+    private val moviesLiveDataSource = MutableLiveData<MovieDataSource>()
+
+    fun getMoviesLiveDataSource() = moviesLiveDataSource
 
     override fun create(): DataSource<Int, Movie> {
         val movieDataSource = MovieDataSource(apiService, compositeDisposable)

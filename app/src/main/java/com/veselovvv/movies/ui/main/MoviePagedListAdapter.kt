@@ -20,7 +20,7 @@ import com.veselovvv.movies.ui.movie.MovieActivity
 
 class MoviePagedListAdapter(private val context: Context)
     : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
-    private var networkState: NetworkState? = null
+    private var networkState: NetworkState? = null // TODO get rid of null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View
@@ -46,7 +46,7 @@ class MoviePagedListAdapter(private val context: Context)
     override fun getItemViewType(position: Int) =
         if (hasExtraRow() && position == itemCount - 1) NETWORK_VIEW_TYPE else MOVIE_VIEW_TYPE
 
-    private fun hasExtraRow() = networkState != null && networkState != NetworkState.LOADED
+    fun hasExtraRow() = networkState != null && networkState != NetworkState.LOADED
 
     fun setNetworkState(newNetworkState: NetworkState) {
         val previousState = this.networkState
@@ -56,23 +56,23 @@ class MoviePagedListAdapter(private val context: Context)
         val hasExtraRow = hasExtraRow()
 
         if (hadExtraRow != hasExtraRow) {
-            if (hadExtraRow) notifyItemRemoved(super.getItemCount())
-            else notifyItemInserted(super.getItemCount())
-        } else if (hasExtraRow && previousState != networkState)
-            notifyItemChanged(itemCount - 1)
+            val itemCount = super.getItemCount()
+            if (hadExtraRow) notifyItemRemoved(itemCount) else notifyItemInserted(itemCount)
+        } else
+            if (hasExtraRow && previousState != networkState) notifyItemChanged(itemCount - 1)
     }
 
     class MovieDiffCallback : DiffUtil.ItemCallback<Movie>() {
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie) = oldItem.id == newItem.id
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie) = oldItem.getId() == newItem.getId()
         override fun areContentsTheSame(oldItem: Movie, newItem: Movie) = oldItem == newItem
     }
 
     class MovieItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(movie: Movie?, context: Context) {
-            itemView.findViewById<MaterialTextView>(R.id.cv_title).text = movie?.title
-            itemView.findViewById<MaterialTextView>(R.id.cv_release_date).text = movie?.releaseDate
+            itemView.findViewById<MaterialTextView>(R.id.cv_title).text = movie?.getTitle()
+            itemView.findViewById<MaterialTextView>(R.id.cv_release_date).text = movie?.getReleaseDate()
 
-            val moviePosterURL = POSTER_BASE_URL + movie?.posterPath
+            val moviePosterURL = POSTER_BASE_URL + movie?.getPosterPath()
 
             Glide.with(itemView.context)
                 .load(moviePosterURL)
@@ -80,35 +80,37 @@ class MoviePagedListAdapter(private val context: Context)
 
             itemView.setOnClickListener {
                 val intent = Intent(context, MovieActivity::class.java)
-                intent.putExtra("id", movie?.id)
+                intent.putExtra(ID_PARAM_KEY, movie?.getId())
                 context.startActivity(intent)
             }
+        }
+
+        companion object {
+            const val ID_PARAM_KEY = "id" // TODO make private + get in adapter an interface or
+            // lambda and invoke that here, but write an implementation in MovieActivity
         }
     }
 
     class NetworkStateItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(networkState: NetworkState?) {
-            if (networkState != null && networkState == NetworkState.LOADING)
-                itemView.findViewById<CircularProgressIndicator>(R.id.progress_indicator_item)
-                    .makeVisible()
-            else itemView.findViewById<CircularProgressIndicator>(R.id.progress_indicator_item)
-                    .makeVisible(false)
+            val makeProgressIndicatorVisible = networkState.isTypeOf(NetworkState.LOADING)
+            itemView.findViewById<CircularProgressIndicator>(R.id.progress_indicator_item)
+                .makeVisible(makeProgressIndicatorVisible)
 
-            if (networkState != null && networkState == NetworkState.ERROR)
-                itemView.findViewById<MaterialTextView>(R.id.error_item).apply {
+            itemView.findViewById<MaterialTextView>(R.id.error_item).apply {
+                if (networkState.isTypeOf(NetworkState.ERROR) || networkState.isTypeOf(NetworkState.END_OF_LIST)) {
                     makeVisible()
-                    text = networkState.message
-            } else if (networkState != null && networkState == NetworkState.END_OF_LIST)
-                itemView.findViewById<MaterialTextView>(R.id.error_item).apply {
-                    makeVisible()
-                    text = networkState.message
-                }
-            else itemView.findViewById<MaterialTextView>(R.id.error_item).makeVisible(false)
+                    text = networkState?.getMessage()
+                } else
+                    makeVisible(false)
+            }
         }
+
+        fun NetworkState?.isTypeOf(networkState: NetworkState) = this != null && this == networkState
     }
 
     companion object {
         private const val NETWORK_VIEW_TYPE = 2
-        const val MOVIE_VIEW_TYPE = 1
+        const val MOVIE_VIEW_TYPE = 1 // TODO make private
     }
 }
