@@ -19,16 +19,16 @@ class MovieDataSource(
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, Movie>
-    ) = load(page) {
-        callback.onResult(it.getMovieList(), null, page + 1)
+    ) = load(page) { movieResponse ->
+        callback.onResult(movieResponse.getMovieList(), null, page + 1)
         networkState.postValue(NetworkState.LOADED)
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) =
-        load(params.key) {
+        load(params.key) { movieResponse ->
             // If there is content to load, load it, else - the end of the list:
-            if (it.getTotalPages() >= params.key) {
-                callback.onResult(it.getMovieList(), params.key + 1)
+            if (movieResponse.getTotalPages() >= params.key) {
+                callback.onResult(movieResponse.getMovieList(), params.key + 1)
                 networkState.postValue(NetworkState.LOADED)
             } else
                 networkState.postValue(NetworkState.END_OF_LIST)
@@ -36,14 +36,14 @@ class MovieDataSource(
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) = Unit
 
-    fun load(pageNumber: Int, movieResponse: (MovieResponse) -> Unit) {
+    fun load(pageNumber: Int, response: (MovieResponse) -> Unit) {
         networkState.postValue(NetworkState.LOADING)
 
         compositeDisposable.add(
             apiService.getPopularMovie(pageNumber)
                 .subscribeOn(Schedulers.io())
-                .subscribe({
-                    movieResponse.invoke(it)
+                .subscribe({ movieResponse ->
+                    response.invoke(movieResponse)
                 }, {
                     networkState.postValue(NetworkState.ERROR)
                 })

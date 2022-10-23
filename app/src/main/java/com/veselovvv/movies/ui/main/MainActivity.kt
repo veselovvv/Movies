@@ -48,16 +48,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.moviePagedList.observe(this) { movieAdapter.submitList(it) }
-        viewModel.networkState.observe(this) {
+        viewModel.networkState.observe(this) { networkState ->
             val isListEmpty = viewModel.listIsEmpty()
 
             findViewById<ProgressBar>(R.id.progress_bar_popular)
-                .makeVisible(isListEmpty && it == NetworkState.LOADING)
+                .makeVisible(isListEmpty && networkState == NetworkState.LOADING)
 
             findViewById<MaterialTextView>(R.id.error_popular)
-                .makeVisible(isListEmpty && it == NetworkState.ERROR)
+                .makeVisible(isListEmpty && networkState == NetworkState.ERROR)
 
-            if (!isListEmpty) movieAdapter.setNetworkState(it)
+            if (!isListEmpty) movieAdapter.setNetworkState(networkState)
         }
     }
 }

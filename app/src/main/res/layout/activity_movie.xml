@@ -43,7 +43,7 @@
                 android:layout_gravity="center"
                 android:scaleType="centerCrop" />
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/data_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="16dp"

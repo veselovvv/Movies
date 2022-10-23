@@ -1,7 +1,7 @@
 package com.veselovvv.movies.ui.movie
 
 import android.os.Bundle
-import androidx.annotation.IdRes
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -35,31 +35,37 @@ class MovieActivity : AppCompatActivity() {
                 MovieViewModel(movieDetailsRepository, movieId) as T
         })[MovieViewModel::class.java]
 
-        viewModel.movieDetails.observe(this) { bindUI(it) }
-        viewModel.networkState.observe(this) {
+        viewModel.movieDetails.observe(this) { movieDetails ->
+            setTextForTextViews(movieDetails)
+
+            val posterURL = POSTER_BASE_URL + movieDetails.getPosterPath()
+            Glide.with(this).load(posterURL).into(findViewById(R.id.movie_poster))
+        }
+
+        viewModel.networkState.observe(this) { networkState ->
+            findViewById<LinearLayout>(R.id.data_layout)
+                .makeVisible(networkState != NetworkState.ERROR)
+
             findViewById<CircularProgressIndicator>(R.id.progress_indicator)
-                .makeVisible(it == NetworkState.LOADING)
+                .makeVisible(networkState == NetworkState.LOADING)
 
             findViewById<MaterialTextView>(R.id.error)
-                .makeVisible(it == NetworkState.ERROR)
+                .makeVisible(networkState == NetworkState.ERROR)
         }
     }
 
-    fun bindUI(movieDetails: MovieDetails) {
-        setTextForTextView(R.id.title, movieDetails.getTitle())
-        setTextForTextView(R.id.subtitle, movieDetails.getTagline())
-        setTextForTextView(R.id.release_date, movieDetails.getReleaseDate())
-        setTextForTextView(R.id.rating, movieDetails.getRating())
-        setTextForTextView(R.id.runtime, movieDetails.getRuntime())
-        setTextForTextView(R.id.overview, movieDetails.getOverview())
-        setTextForTextView(R.id.budget, movieDetails.getBudget())
-        setTextForTextView(R.id.revenue, movieDetails.getRevenue())
-
-        val posterURL = POSTER_BASE_URL + movieDetails.getPosterPath()
-        Glide.with(this).load(posterURL).into(findViewById(R.id.movie_poster))
-    }
-
-    fun setTextForTextView(@IdRes textViewId: Int, text: String) {
-        findViewById<MaterialTextView>(textViewId).text = text
+    fun setTextForTextViews(movieDetails: MovieDetails) {
+        mapOf(
+            Pair(R.id.title, movieDetails.getTitle()),
+            Pair(R.id.subtitle, movieDetails.getTagline()),
+            Pair(R.id.release_date, movieDetails.getReleaseDate()),
+            Pair(R.id.rating, movieDetails.getRating()),
+            Pair(R.id.runtime, movieDetails.getRuntime()),
+            Pair(R.id.overview, movieDetails.getOverview()),
+            Pair(R.id.budget, movieDetails.getBudget()),
+            Pair(R.id.revenue, movieDetails.getRevenue())
+        ).forEach { idWithText ->
+            findViewById<MaterialTextView>(idWithText.key).text = idWithText.value
+        }
     }
 }
