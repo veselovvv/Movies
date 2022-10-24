@@ -26,7 +26,6 @@ class MovieActivity : BaseActivity() {
         movieDetailsRepository = MovieDetailsRepository(MovieDBClient.getClient())
 
         val movieId = intent.getIntExtra(getIdParamKey(), 1)
-        // TODO DRY
         viewModel = ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>) =
                 MovieViewModel(movieDetailsRepository, movieId) as T

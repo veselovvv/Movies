@@ -17,7 +17,7 @@ import com.veselovvv.movies.ui.core.UI
 
 class MoviePagedListAdapter(private val startActivityWithIdParameter: (id: Int) -> Unit)
     : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
-    private var networkState: NetworkState? = null // TODO get rid of null
+    private var networkState: NetworkState? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View
@@ -79,7 +79,7 @@ class MoviePagedListAdapter(private val startActivityWithIdParameter: (id: Int) 
                 .into(itemView.findViewById(R.id.cv_movie_poster))
 
             itemView.setOnClickListener {
-                startActivityWithIdParameter.invoke(movie?.getId() ?: 0) // TODO get rid of null
+                startActivityWithIdParameter.invoke(movie?.getId() ?: 0)
             }
         }
     }

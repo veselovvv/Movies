@@ -25,7 +25,6 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         movieRepository = MoviePagedListRepository(MovieDBClient.getClient())
-        // TODO DRY
         viewModel = ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>) =
                 MainViewModel(movieRepository) as T
