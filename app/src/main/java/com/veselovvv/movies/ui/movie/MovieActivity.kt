@@ -2,7 +2,6 @@ package com.veselovvv.movies.ui.movie
 
 import android.os.Bundle
 import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -12,13 +11,12 @@ import com.google.android.material.textview.MaterialTextView
 import com.veselovvv.movies.R
 import com.veselovvv.movies.data.NetworkState
 import com.veselovvv.movies.data.api.MovieDBClient
-import com.veselovvv.movies.data.api.POSTER_BASE_URL
 import com.veselovvv.movies.data.models.MovieDetails
 import com.veselovvv.movies.data.repositories.MovieDetailsRepository
 import com.veselovvv.movies.makeVisible
-import com.veselovvv.movies.ui.main.MoviePagedListAdapter
+import com.veselovvv.movies.ui.core.BaseActivity
 
-class MovieActivity : AppCompatActivity() {
+class MovieActivity : BaseActivity() {
     private lateinit var movieDetailsRepository: MovieDetailsRepository
     private lateinit var viewModel: MovieViewModel
 
@@ -28,7 +26,7 @@ class MovieActivity : AppCompatActivity() {
 
         movieDetailsRepository = MovieDetailsRepository(MovieDBClient.getClient())
 
-        val movieId = intent.getIntExtra(MoviePagedListAdapter.MovieItemViewHolder.ID_PARAM_KEY, 1)
+        val movieId = intent.getIntExtra(getIdParamKey(), 1)
         // TODO DRY
         viewModel = ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>) =
@@ -38,7 +36,7 @@ class MovieActivity : AppCompatActivity() {
         viewModel.movieDetails.observe(this) { movieDetails ->
             setTextForTextViews(movieDetails)
 
-            val posterURL = POSTER_BASE_URL + movieDetails.getPosterPath()
+            val posterURL = MovieDBClient.getPosterBaseUrl() + movieDetails.getPosterPath()
             Glide.with(this).load(posterURL).into(findViewById(R.id.movie_poster))
         }
 

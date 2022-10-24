@@ -1,7 +1,5 @@
 package com.veselovvv.movies.ui.main
 
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +11,11 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textview.MaterialTextView
 import com.veselovvv.movies.R
 import com.veselovvv.movies.data.NetworkState
-import com.veselovvv.movies.data.api.POSTER_BASE_URL
+import com.veselovvv.movies.data.api.MovieDBClient
 import com.veselovvv.movies.data.models.Movie
 import com.veselovvv.movies.makeVisible
-import com.veselovvv.movies.ui.movie.MovieActivity
 
-class MoviePagedListAdapter(private val context: Context)
+class MoviePagedListAdapter(private val startActivityWithIdParameter: (id: Int) -> Unit)
     : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
     private var networkState: NetworkState? = null // TODO get rid of null
 
@@ -37,7 +34,7 @@ class MoviePagedListAdapter(private val context: Context)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
         if (getItemViewType(position) == MOVIE_VIEW_TYPE)
-            (holder as MovieItemViewHolder).bind(getItem(position), context)
+            (holder as MovieItemViewHolder).bind(getItem(position), startActivityWithIdParameter)
         else
             (holder as NetworkStateItemViewHolder).bind(networkState)
 
@@ -47,6 +44,9 @@ class MoviePagedListAdapter(private val context: Context)
         if (hasExtraRow() && position == itemCount - 1) NETWORK_VIEW_TYPE else MOVIE_VIEW_TYPE
 
     fun hasExtraRow() = networkState != null && networkState != NetworkState.LOADED
+
+    fun getSpanSize(position: Int) =
+        if (getItemViewType(position) == MOVIE_VIEW_TYPE) MOVIE_VIEW_TYPE_SPAN else NETWORK_VIEW_TYPE_SPAN
 
     fun setNetworkState(newNetworkState: NetworkState) {
         val previousState = this.networkState
@@ -68,26 +68,19 @@ class MoviePagedListAdapter(private val context: Context)
     }
 
     class MovieItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(movie: Movie?, context: Context) {
+        fun bind(movie: Movie?, startActivityWithIdParameter: (id: Int) -> Unit) {
             itemView.findViewById<MaterialTextView>(R.id.cv_title).text = movie?.getTitle()
             itemView.findViewById<MaterialTextView>(R.id.cv_release_date).text = movie?.getReleaseDate()
 
-            val moviePosterURL = POSTER_BASE_URL + movie?.getPosterPath()
+            val moviePosterURL = MovieDBClient.getPosterBaseUrl() + movie?.getPosterPath()
 
             Glide.with(itemView.context)
                 .load(moviePosterURL)
                 .into(itemView.findViewById(R.id.cv_movie_poster))
 
             itemView.setOnClickListener {
-                val intent = Intent(context, MovieActivity::class.java)
-                intent.putExtra(ID_PARAM_KEY, movie?.getId())
-                context.startActivity(intent)
+                startActivityWithIdParameter.invoke(movie?.getId() ?: 0) // TODO get rid of null
             }
-        }
-
-        companion object {
-            const val ID_PARAM_KEY = "id" // TODO make private + get in adapter an interface or
-            // lambda and invoke that here, but write an implementation in MovieActivity
         }
     }
 
@@ -110,7 +103,9 @@ class MoviePagedListAdapter(private val context: Context)
     }
 
     companion object {
+        private const val MOVIE_VIEW_TYPE = 1
         private const val NETWORK_VIEW_TYPE = 2
-        const val MOVIE_VIEW_TYPE = 1 // TODO make private
+        private const val MOVIE_VIEW_TYPE_SPAN = 1 // MOVIE_VIEW_TYPE needs 1 out of 2 span
+        private const val NETWORK_VIEW_TYPE_SPAN = 2 // NETWORK_VIEW_TYPE needs all 2 span
     }
 }

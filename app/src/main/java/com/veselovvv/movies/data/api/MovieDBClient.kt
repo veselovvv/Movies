@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 private const val API_KEY_PARAMETER_NAME = "api_key"
 private const val API_KEY = "YourApiKey"
 private const val BASE_URL = "https://api.themoviedb.org/3/"
-const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342" // TODO make private
+private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342"
 
 object MovieDBClient {
     fun getClient(): MovieDBI {
@@ -42,4 +42,6 @@ object MovieDBClient {
             .build()
             .create(MovieDBI::class.java)
     }
+
+    fun getPosterBaseUrl() = POSTER_BASE_URL
 }

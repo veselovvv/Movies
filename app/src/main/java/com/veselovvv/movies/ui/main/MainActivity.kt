@@ -1,8 +1,8 @@
 package com.veselovvv.movies.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ProgressBar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -14,8 +14,10 @@ import com.veselovvv.movies.data.NetworkState
 import com.veselovvv.movies.data.api.MovieDBClient
 import com.veselovvv.movies.data.repositories.MoviePagedListRepository
 import com.veselovvv.movies.makeVisible
+import com.veselovvv.movies.ui.core.BaseActivity
+import com.veselovvv.movies.ui.movie.MovieActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private lateinit var movieRepository: MoviePagedListRepository
     private lateinit var viewModel: MainViewModel
 
@@ -30,15 +32,15 @@ class MainActivity : AppCompatActivity() {
                 MainViewModel(movieRepository) as T
         })[MainViewModel::class.java]
 
-        val movieAdapter = MoviePagedListAdapter(this)
-        val gridLayoutManager = GridLayoutManager(this, 2)
+        val movieAdapter = MoviePagedListAdapter { id ->
+            val intent = Intent(this, MovieActivity::class.java)
+            intent.putExtra(getIdParamKey(), id)
+            startActivity(intent)
+        }
 
+        val gridLayoutManager = GridLayoutManager(this, AMOUNT_OF_ITEMS_IN_ROW)
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                val viewType = movieAdapter.getItemViewType(position)
-                // MOVIE_VIEW_TYPE needs 1 out of 2 span, NETWORK_VIEW_TYPE - all 2 span:
-                return if (viewType == MoviePagedListAdapter.MOVIE_VIEW_TYPE) 1 else 2
-            }
+            override fun getSpanSize(position: Int) = movieAdapter.getSpanSize(position)
         }
 
         findViewById<RecyclerView>(R.id.movie_list).apply {
@@ -59,5 +61,9 @@ class MainActivity : AppCompatActivity() {
 
             if (!isListEmpty) movieAdapter.setNetworkState(networkState)
         }
+    }
+
+    companion object {
+        private const val AMOUNT_OF_ITEMS_IN_ROW = 2
     }
 }
