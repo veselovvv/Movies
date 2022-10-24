@@ -13,7 +13,6 @@ import com.veselovvv.movies.R
 import com.veselovvv.movies.data.NetworkState
 import com.veselovvv.movies.data.api.MovieDBClient
 import com.veselovvv.movies.data.repositories.MoviePagedListRepository
-import com.veselovvv.movies.makeVisible
 import com.veselovvv.movies.ui.core.BaseActivity
 import com.veselovvv.movies.ui.movie.MovieActivity
 

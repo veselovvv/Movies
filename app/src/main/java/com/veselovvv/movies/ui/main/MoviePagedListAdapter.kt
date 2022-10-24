@@ -13,7 +13,7 @@ import com.veselovvv.movies.R
 import com.veselovvv.movies.data.NetworkState
 import com.veselovvv.movies.data.api.MovieDBClient
 import com.veselovvv.movies.data.models.Movie
-import com.veselovvv.movies.makeVisible
+import com.veselovvv.movies.ui.core.UI
 
 class MoviePagedListAdapter(private val startActivityWithIdParameter: (id: Int) -> Unit)
     : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
@@ -84,7 +84,7 @@ class MoviePagedListAdapter(private val startActivityWithIdParameter: (id: Int) 
         }
     }
 
-    class NetworkStateItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class NetworkStateItemViewHolder(view: View) : RecyclerView.ViewHolder(view), UI {
         fun bind(networkState: NetworkState?) {
             val makeProgressIndicatorVisible = networkState.isTypeOf(NetworkState.LOADING)
             itemView.findViewById<CircularProgressIndicator>(R.id.progress_indicator_item)

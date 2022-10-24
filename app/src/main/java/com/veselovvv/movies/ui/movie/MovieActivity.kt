@@ -13,7 +13,6 @@ import com.veselovvv.movies.data.NetworkState
 import com.veselovvv.movies.data.api.MovieDBClient
 import com.veselovvv.movies.data.models.MovieDetails
 import com.veselovvv.movies.data.repositories.MovieDetailsRepository
-import com.veselovvv.movies.makeVisible
 import com.veselovvv.movies.ui.core.BaseActivity
 
 class MovieActivity : BaseActivity() {
